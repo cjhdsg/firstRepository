@@ -132,7 +132,7 @@
 
 - **属性信息**   ——存放于batchTable中 ：Json::Value类   基于C++解析Json类库——JsonCpp库
 
-**输出：**封装好的obj对象
+**输出**：封装好的obj对象 ：ObjClass
 
 ------
 
@@ -140,23 +140,23 @@
 
 #### **②生成模型唯一ID号函数**
 
-**输入：**所有读取的obj对象数组：vector\<ObjClass\>
+**输入**：所有读取的obj对象数组：vector\<ObjClass\>
 
-在读取各个obj模型时，顺带生成各个obj模型的**<u>ID号</u>**，对应b3dm文件**featureTable中的<u>Batch_Length属性值</u>**以及**batchTable中的<u>Batch_Id数组</u>**
+在读取各个obj模型时，顺带生成各个obj模型的**ID号**，对应b3dm文件**featureTable中的Batch_Length属性值**以及**batchTable中的Batch_Id数组**
 
 **输出：**obj对象 ：ObjClass
 
-- <u>**也可在读取模型时直接赋予ID号**</u>
+- **也可在读取模型时直接赋予ID号**
 
 
 
 #### **③合并顶点、法向量、索引函数：**
 
-**输入：**所有读取的obj对象数组 ：vector\<ObjClass\>
+**输入**：所有读取的obj对象数组 ：vector\<ObjClass\>
 
 在b3dm模型中内嵌的glb模型的二进制数据部分，肯定存放的是一个**连续**的数据块，不可能类似数组一样分块存储，因此需要对多个模型的顶点、法向量等信息进行合并
 
-- 将各个obj模型的顶点（法向量）数组合并成一个包含**<u>所有</u>**模型顶点（法向量）信息的数组，合并时注意：
+- 将各个obj模型的顶点（法向量）数组合并成一个包含**所有**模型顶点（法向量）信息的数组，合并时注意：
 
   1、需要一个**判断函数**，多模型重复的顶点（法向量）**不重复出现**，只出现一次，使用一个索引值
 
@@ -166,17 +166,17 @@
   
   - **不建议使用set<>进行去重，set在去重时会自动排序，破坏原有顶点顺序，可能造成不必要的麻烦**
 
-**输出：**调整后的obj对象数组 ：vector\<ObjClass\>
+**输出**：调整后的obj对象数组 ：vector\<ObjClass\>
 
 
 
 #### ④合并属性函数：
 
-**输入：** 所有读取obj数组 ：vector\<ObjClass\>
+**输入**： 所有读取obj数组 ：vector\<ObjClass\>
 
-取出所有obj模型属性，按b3dm模型batchTable的格式，组成”**属性名": [obj-1属性值, obj-2属性值, ..., obj-n属性值]**“的格式, 其中n=vector\<ObjClass\>.size()，空值以**空字符串** 填充
+取出所有obj模型属性，按b3dm模型batchTable的格式，组成”**属性名": [obj-1属性值, obj-2属性值, ..., obj-n属性值]**“的格式, 其中n=vector\<ObjClass\>.size()，空值以**空字符串**填充
 
-**输出：**合并后的属性对象 Json::Value对象，或map<string, vector\<string>>格式
+**输出**：合并后的属性对象 Json::Value对象，或map<string, vector\<string>>格式
 
 - C++中map\<\>存储”键:键值"的格式，但与python中的字典数据类型不同，C++中**不支持键值的多数据类型**，在声明时必须把键值的类型定死，因此，统一先存储为string类型，之后在按需进行转化 
 
