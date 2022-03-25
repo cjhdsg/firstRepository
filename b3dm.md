@@ -30,10 +30,6 @@
 
 <div align="center"><img src="https://camo.githubusercontent.com/50bec3a81bd7fea473ba2253ee6ed7522c07abb96f4e96a8bfe7770798c9926c/68747470733a2f2f73322e6c6f6c692e6e65742f323032322f30332f30372f337079774151736d677455525769622e706e67"></div>
 
-[![image-20220307163845721]()](https://camo.githubusercontent.com/50bec3a81bd7fea473ba2253ee6ed7522c07abb96f4e96a8bfe7770798c9926c/68747470733a2f2f73322e6c6f6c692e6e65742f323032322f30332f30372f337079774151736d677455525769622e706e67)
-
-<div align="center"><img src="https://camo.githubusercontent.com/793823b7de7ab4bc8e6c7af97c19531de0a026c1610317d9b4b24226cb874cfd/68747470733a2f2f73322e6c6f6c692e6e65742f323032322f30332f30372f3366425156764168745a6e5238714b2e706e67"></div>
-
 #### feature table部分
 
 <div align="center"><img src="https://camo.githubusercontent.com/fb3753f4e77dbaf412339320b31497f190dc50ddd01c5c36120ce9b93824ed39/68747470733a2f2f73322e6c6f6c692e6e65742f323032322f30332f30372f5766313533587948426d61504f76722e706e67"></div>
@@ -50,13 +46,9 @@
 
 <div align="center"><img src="https://camo.githubusercontent.com/4d6db4693ea39b0218885f3811878ced784b966a7aa7dd9f79c7d835525478d7/68747470733a2f2f73322e6c6f6c692e6e65742f323032322f30332f30372f536141344859777339576d6e7649312e706e67"></div>
 
-[![image-20220307164025870]()](https://camo.githubusercontent.com/4d6db4693ea39b0218885f3811878ced784b966a7aa7dd9f79c7d835525478d7/68747470733a2f2f73322e6c6f6c692e6e65742f323032322f30332f30372f536141344859777339576d6e7649312e706e67)
-
 ①json数据
 
 <div align="center"><img src="https://camo.githubusercontent.com/f10488f778c0fb9ff41693565bc7f8ec613343031309fb65306cb36bb24ca2e1/68747470733a2f2f73322e6c6f6c692e6e65742f323032322f30332f30372f463969507a6b5a36357451563279632e706e67"></div>
-
-[![image-20220307164057495]()](https://camo.githubusercontent.com/f10488f778c0fb9ff41693565bc7f8ec613343031309fb65306cb36bb24ca2e1/68747470733a2f2f73322e6c6f6c692e6e65742f323032322f30332f30372f463969507a6b5a36357451563279632e706e67)
 
 ②二进制数据（暂无）
 
@@ -120,7 +112,7 @@
 
 ------
 
-#### ①读取源数据obj模型信息函数
+#### (1) 读取源数据obj模型信息函数
 
 **输入**：obj模型路径：string
 
@@ -144,7 +136,7 @@
 
 
 
-#### ②计算顶点、法向量等的数量的函数 
+#### (2) 计算顶点、法向量等的数量的函数 
 
 对应glb模型accessors中的**count属性**
 
@@ -154,7 +146,7 @@
 
 
 
-#### ③计算顶点、法向量等所占字节数（byteLength与byteOffset）的函数
+#### (3) 计算顶点、法向量等所占字节数（byteLength与byteOffset）的函数
 
 对应glb模型accessors中的**byteLength与byteOffset属性**
 
@@ -162,19 +154,17 @@
 
 例：顶点所占字节数 =  顶点数量（②获得）* 维数 (3) *  sizeof(数据类型) (sizeof(float) = 4)
 
-例如，我们指定存储顺序为：顶点-float、法向量-float、面片索引-unsigned short，
+例如，我们指定存储顺序为：顶点-float、法向量-float、面片索引-unsigned short，**在同一bufferView**中：
 
-则 ——顶点部分的byteOffset = **0**
+——顶点部分的byteOffset = **0**
 
-​    ——法向量部分的byteOffset = **顶点部分所占字节长度**
-
-​    ——索引部分的byteOffset = **顶点部分所占字节长度 + 法向量部分所占字节长度**
+——法向量部分的byteOffset = **顶点部分所占字节长度**
 
 **输出**：byteLength、byteOffset
 
 
 
-#### ④计算顶点、法向量等的最值的函数 
+#### (4) 计算顶点、法向量等的最值的函数 
 
 对应glb模型accessors中的**max、min属性**
 
@@ -196,7 +186,7 @@
 
 #### 针对一个b3dm文件中存在多个obj模型的情况，还需：
 
-#### **⑤生成模型唯一ID号函数**
+#### **(5) 生成模型唯一ID号函数**
 
 **输入**：所有读取的obj对象数组：vector\<ObjClass\>
 
@@ -208,7 +198,7 @@
 
 
 
-#### **⑥合并顶点、法向量、索引函数：**
+#### **(6) 合并顶点、法向量、索引函数：**
 
 **输入**：所有读取的obj对象数组 ：vector\<ObjClass\>
 
@@ -228,7 +218,7 @@
 
 
 
-#### ⑦合并属性函数：
+#### (7) 合并属性函数：
 
 **输入**： 所有读取obj数组 ：vector\<ObjClass\>
 
@@ -236,7 +226,7 @@
 
 **输出**：合并后的属性对象 Json::Value对象，或map<string, vector\<string>>格式
 
-- C++中map\<\>存储”键:键值"的格式，但与python中的字典数据类型不同，C++中**不支持键值的多数据类型**，在声明时必须把键值的类型定死，因此，统一先存储为string类型，之后在按需进行转化 
+- C++中map\<\>存储”键:键值"的格式，但与python中的字典数据类型不同，C++中**不支持键值的多数据类型**，在声明时必须把键值的类型定死，因此，考虑统一先存储为string类型，之后在按需进行转化 
 
 
 
@@ -254,7 +244,7 @@
 
 ### 2.计算
 
-#### ①featureTable的函数
+#### (8) featureTable生成Json的函数
 
 该函数生成featureTable json部分、该部分字节长度
 
@@ -268,7 +258,7 @@
 
 
 
-#### ②batchTable的函数
+#### (9) batchTable生成Json的函数
 
 该函数生成batchTable json部分、该部分字节长度
 
@@ -282,16 +272,124 @@
 
 
 
-#### ③glb生成Json的函数
+#### (10) glb生成Json的函数
 
-输入：buffer内容
+**输入**：相关部分内容
+
+glb模型的Json部分很多是固定内容，可以直接写死
+
+- **asset**、**scene**、**scenes**、**nodes**、**mesh**部分可以**直接写死**
+
+```json
+{
+    "asset":{
+        "generator":"COLLADA2GLTF",
+        "version":"2.0"
+    },
+    "scene":0,
+    "scenes":[{"nodes":[0]}],
+    "nodes":[{"mesh":0}],
+    "meshes":[{
+        "primitives":[{
+            "attributes":{
+                //我们可以人为指定存储顺序，索引-法向量-顶点
+                "NORMAL":1,
+                "POSITION":2
+            },
+            "indices":0,
+            "mode":4 //默认为4，以三角面片进行组织
+        }],
+         "name":"Mesh"
+    }],
+```
+
+- **accessors**、**bufferView**、**buffer**相关内容需要之前的函数计算得到
+
+```json
+{
+    "accessors":[{
+        //索引
+        "bufferView":0,
+        "byteOffset":0,
+        "componentType":5123,
+        "count":'/*从函数2中获得*/',
+        "max":'/*从函数4中获得*/',
+        "min":'/*从函数4中获得*/',
+        "type":"SCALAR"
+    },{
+        //法向量
+        "bufferView":1,
+        "byteOffset":0,
+        "componentType":5126,
+        "count":'/*从函数2中获得*/',
+        "max":'/*从函数4中获得*/',
+        "min":'/*从函数4中获得*/',
+        "type":"VEC3"
+    },{
+        //顶点
+        "bufferView":1,
+        "byteOffset":'/*从函数3中获得*/',
+        "componentType":5126,
+        "count":'/*从函数2中获得*/',
+        "max":'/*从函数4中获得*/',
+        "min":'/*从函数4中获得*/',
+        "type":"VEC3"
+    }],
+    "bufferViews":[{
+        //索引
+        "buffer":0,
+        "byteOffset":'/*从函数3中获得*/',
+        "byteLength":'/*从函数3中获得*/',
+        "target":34963
+    },{
+        //法向量+顶点
+        "buffer":0,
+        "byteOffset":0,
+        "byteLength":'/*从函数3中获得*/',
+        "target":34962
+    }],
+    "buffers":[{"byteLength":'/*从函数3中获得*/'}]
+}
+```
+
+先构建成为**Json::Value**形式，再转为字符串，利用JsonCpp库中 **FastWriter::write(Json::Value&)函数**
+
+**输出**：① Json格式数据块 ：string   
+
+​           ② 字节总长度 ：unsigned int
+
+
+
+#### (11) 计算glb部分总长度函数
+
+**输入**：Json部分总长度、Binary部分总长度
+
+**输出**：表格中的字节长度相加
+
+|   长度   |      4       |        4        |        4        |         4          |            4            |   Json长度 (uint)    |           4           |            4            |    Binary长度 (uint)     |
+| :------: | :----------: | :-------------: | :-------------: | :----------------: | :---------------------: | :------------------: | :-------------------: | :---------------------: | :----------------------: |
+| **内容** | glTF (char*) | 版本号   (uint) | 总长度   (uint) | Json部分长度(uint) | Json部分类型标识 (uint) | Json部分内容 (char*) | Binary部分长度 (uint) | Json部分类型标识 (uint) | Binary部分内容 (float等) |
+
+
+
+#### (12) 计算b3dm总长度函数
+
+**输入**：featureTable部分总长度、batchTable部分总长度
+
+**输出**：表格中的字节长度相加
+
+|   长度   |      4       |          4          |      4       |              4              |               4                |             4             |              4               | featureTable Json部分长度(uint) | featureTable Binary长度(uint)  |  batchTable Json长度 (uint)   |  batchTable Binary长度 (uint)  | glb (uint) |
+| :------: | :----------: | :-----------------: | :----------: | :-------------------------: | :----------------------------: | :-----------------------: | :--------------------------: | :-----------------------------: | :----------------------------: | :---------------------------: | :----------------------------: | :--------: |
+| **内容** | b3dm (char*) | 版本         (uint) | 总长  (uint) | featureTable Json长度(uint) | featureTable Binary长度 (uint) | batchTable Json长度(uint) | batchTable Binary长度 (uint) |  featureTable Json内容(char*)   | featureTable Binary内容 (暂无) | batchTable    Json内容(char*) | batchTable    Binary内容(暂无) | glb  内容  |
 
 
 
 ### 3.输出
 
-#### ①输出二进制函数
+#### 输出二进制函数
 
 **输入**：各部分内容
+
+二进制部分按各自数据类型**分类**输出
 
 **输出**：二进制文件（文件后缀是.b3dm）
